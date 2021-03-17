@@ -20,11 +20,11 @@ public class UserRepositoryTest extends StudyApplicationTests {
     public void create(){
         // String sql = insert into user ( %s, %s .. ) value (account, email.. );
         User user = new User();
-        user.setAccount("TestUser05");
-        user.setEmail("TestUser05@gmail.com");
-        user.setPhoneNumber("010-2100-1020");
+        user.setAccount("TestUser03");
+        user.setEmail("TestUser03@gmail.com");
+        user.setPhoneNumber("010-3333-2222");
         user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedBy("백인성");
+        user.setCreatedBy("TestUser03");
 
         User newUser = userRepository.save(user);
         System.out.println("newUser :"+newUser);
@@ -33,7 +33,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
     @Test
     public void read(){
         // findById로 null 이 나오는 경우를 대비하여 Optional 사용, 없어도 NullPointException 발생하지 않음
-        Optional<User> user = userRepository.findById(5L);
+        Optional<User> user = userRepository.findById(2L);
 
         // userRepository에서 Id로 찾은 user가 있으면, selectUser에 넣고 그 값을 출력
         user.ifPresent(selectUser->{
