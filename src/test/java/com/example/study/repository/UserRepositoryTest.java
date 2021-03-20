@@ -35,7 +35,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
     @Transactional
     public void read(){
         // findById로 null 이 나오는 경우를 대비하여 Optional 사용, 없어도 NullPointException 발생하지 않음
-        Optional<User> user = userRepository.findById(2L);
+        Optional<User> user = userRepository.findByAccount("TestUser02");
 
         // userRepository에서 Id로 찾은 user가 있으면, selectUser에 넣고 그 값을 출력
         user.ifPresent(selectUser->{
@@ -87,3 +87,4 @@ public class UserRepositoryTest extends StudyApplicationTests {
 //        }
     }
 }
+

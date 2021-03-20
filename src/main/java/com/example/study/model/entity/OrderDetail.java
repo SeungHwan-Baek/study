@@ -22,10 +22,10 @@ public class OrderDetail {
 
     // N : 1 = OrderDetail : User
     @ManyToOne
-    private User user;      // user_id
+    private User user;      // OrderDetail 과 N : 1 관계인 User를 지정
 
     // N : 1 = OrderDetail : User
     @ManyToOne
-    private Item item;      // item_id
+    private Item item;      // OrderDetail 과 N : 1 관계인 Item을 지정
 
 }

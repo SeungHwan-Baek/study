@@ -25,7 +25,7 @@ public class User {
     private String updatedBy;
 
     // 1 : N  = User : OrderDetail
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")  // OrderDetail 의 변수 user 와 매핑
-    private List<OrderDetail> orderDetailList;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")  // User와 1 :N 인 OrderDetail 상호 지정하고 매핑 변수 지정
+    private List<OrderDetail> orderDetailList;             // 1:N 이므로 N개인 OrderDetail을 받도록 List로 지정
 
 }
