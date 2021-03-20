@@ -17,7 +17,7 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
     public void create(){
 
         OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setOrderAt(LocalDateTime.now());
+        orderDetail.setCreatedAt(LocalDateTime.now());
 
         // 주문자 정보 User : id = 2
 //        orderDetail.setUserId(2L);

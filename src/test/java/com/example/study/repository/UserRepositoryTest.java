@@ -19,34 +19,39 @@ public class UserRepositoryTest extends StudyApplicationTests {
 
     @Test
     public void create(){
-        // String sql = insert into user ( %s, %s .. ) value (account, email.. );
+
+        String account = "Test01";
+        String password = "test01password";
+        String status = "REGISTERED";
+        String email = "Test01@naver.com";
+        String phoneNumber = "010-1111-2222";
+        LocalDateTime registeredAt = LocalDateTime.now();
+        LocalDateTime createdAt = LocalDateTime.now();
+        String createdBy = "AdminServer";
+
         User user = new User();
-        user.setAccount("TestUser03");
-        user.setEmail("TestUser03@gmail.com");
-        user.setPhoneNumber("010-3333-2222");
-        user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedBy("TestUser03");
+        user.setAccount(account);
+        user.setPassword(password);
+        user.setStatus(status);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+        user.setRegisteredAt(registeredAt);
+        user.setCreatedAt(createdAt);
+        user.setCreatedBy(createdBy);
 
         User newUser = userRepository.save(user);
-        System.out.println("newUser :"+newUser);
+
+        Assert.assertNotNull(newUser);
+
     }
 
     @Test
     @Transactional
     public void read(){
-        // findById로 null 이 나오는 경우를 대비하여 Optional 사용, 없어도 NullPointException 발생하지 않음
-        Optional<User> user = userRepository.findByAccount("TestUser02");
 
-        // userRepository에서 Id로 찾은 user가 있으면, selectUser에 넣고 그 값을 출력
-        user.ifPresent(selectUser->{
-//            System.out.println("user : "+selectUser);
-//            System.out.println("email : "+selectUser.getEmail());
+        User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
+        Assert.assertNotNull(user);
 
-            selectUser.getOrderDetailList().stream().forEach(detail ->{
-                Item item = detail.getItem();
-                System.out.println(item);
-            });
-        });
     }
 
     @Test
