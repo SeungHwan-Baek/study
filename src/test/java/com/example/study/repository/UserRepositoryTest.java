@@ -20,24 +20,23 @@ public class UserRepositoryTest extends StudyApplicationTests {
     @Test
     public void create(){
 
-        String account = "Test01";
-        String password = "test01password";
+        String account = "Test05";
+        String password = "test05";
         String status = "REGISTERED";
-        String email = "Test01@naver.com";
-        String phoneNumber = "010-1111-2222";
+        String email = "Test05@naver.com";
+        String phoneNumber = "010-1111-5555";
         LocalDateTime registeredAt = LocalDateTime.now();
-        LocalDateTime createdAt = LocalDateTime.now();
-        String createdBy = "AdminServer";
 
-        User user = new User();
-        user.setAccount(account);
-        user.setPassword(password);
-        user.setStatus(status);
-        user.setEmail(email);
-        user.setPhoneNumber(phoneNumber);
-        user.setRegisteredAt(registeredAt);
-        user.setCreatedAt(createdAt);
-        user.setCreatedBy(createdBy);
+        // @Builder 패턴으로, 필요한 변수만 추가하여 객체를 생성 IoC
+        // 클래스.builer().필요한 변수명 함수 .build()
+        User user = User.builder()
+                .account(account)
+                .password(password)
+                .status(status)
+                .email(email)
+                .phoneNumber(phoneNumber)
+                .registeredAt(registeredAt)
+                .build();
 
         User newUser = userRepository.save(user);
 
