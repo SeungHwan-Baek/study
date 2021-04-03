@@ -45,12 +45,12 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
     @Override
     public Header<UserApiResponse> read(Long id) {
-        // Repository 에서 id로 찾기
+        // 1.Repository 에서 id로 찾기
         Optional<User> optional = userRepository.findById(id);      // Null 일수 있어서 Optional로 받음
 
         // 찾은 User 를 반환
         return optional
-                .map(user-> response(user))                         // user 존재하면 response(user) 실행
+                .map(user-> response(user))                         // Optional user 존재하면 userApiResponse 작성
                 .orElseGet(                                         // null 일때만 실행 되는 orElseGet
                         ()->Header.ERROR("데이터 없음")
                 );
@@ -58,12 +58,39 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
     @Override
     public Header<UserApiResponse> update(Header<UserApiRequest> request) {
-        return null;
+
+        // 1. data를 가져옴 ( Header data )
+        UserApiRequest userApiRequest = request.getData();
+        // 2. id로 User 찾음
+        Optional<User> optional = userRepository.findById(userApiRequest.getId());
+
+        return optional.map(user -> {
+            // 3. update 실행
+            user.setAccount(userApiRequest.getAccount())
+                    .setPassword(userApiRequest.getPassword())
+                    .setStatus(userApiRequest.getStatus())
+                    .setPhoneNumber(userApiRequest.getPhoneNumber())
+                    .setEmail(userApiRequest.getEmail())
+                    .setRegisteredAt(userApiRequest.getRegisteredAt())
+                    .setUnregisteredAt(userApiRequest.getUnregisteredAt())
+                    ;
+            return user;
+        })
+                .map(user -> userRepository.save(user))     // update 발생 후 새로운 user 객체 반환
+                .map(updateUser -> response(updateUser))    // userApiResponse
+                .orElseGet(()->Header.ERROR("데이터 없음"));
     }
 
     @Override
     public Header delete(Long id) {
-        return null;
+        // 1. id 로 repository 에서 user 찾기
+        Optional<User> optional = userRepository.findById(id);
+        // 2. repository 에서 delete
+        return optional.map(user -> {
+            userRepository.delete(user);
+            return Header.OK();
+        })
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     private Header<UserApiResponse> response(User user){
