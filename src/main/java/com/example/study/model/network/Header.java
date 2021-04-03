@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+/*
+ * T타입(Genric type)을 data로 갖는 Heder 클래스 정의
+ * 사용될때는 Header 형태로 사용하지만, 내부적으로 Request / Respose 형태로 Body 를 채운다
+ */
 public class Header<T> {
 
     // api 통신 시간
