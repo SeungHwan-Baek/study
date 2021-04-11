@@ -11,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ItemApiLogicService implements CrudInterface <ItemApiRequest, ItemApiResponse> {
+public class ItemApiLogicService extends BaseService <ItemApiRequest, ItemApiResponse,Item> {
 
     @Autowired
     private PartnerRepository partnerRepository;
-
-    @Autowired
-    private ItemRepository itemRepository;
 
     @Override
     public Header<ItemApiResponse> create(Header<ItemApiRequest> request) {
@@ -33,14 +30,14 @@ public class ItemApiLogicService implements CrudInterface <ItemApiRequest, ItemA
                 .partner(partnerRepository.getOne(body.getPartnerId()))
                 .build();
 
-        Item newItem = itemRepository.save(item);
+        Item newItem = baseRepository.save(item);
         return response(newItem);
     }
 
     @Override
     public Header<ItemApiResponse> read(Long id) {
 
-        return itemRepository.findById(id)
+        return baseRepository.findById(id)
                 .map(item -> response(item))
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
@@ -49,7 +46,7 @@ public class ItemApiLogicService implements CrudInterface <ItemApiRequest, ItemA
     public Header<ItemApiResponse> update(Header<ItemApiRequest> request) {
         ItemApiRequest body = request.getData();
 
-        return itemRepository.findById(body.getId())
+        return baseRepository.findById(body.getId())
                 .map(entityItem -> {
                     entityItem
                             .setStatus(body.getStatus())
@@ -62,16 +59,16 @@ public class ItemApiLogicService implements CrudInterface <ItemApiRequest, ItemA
                             ;
                     return entityItem;
                 })                                              // id로 찾은 body(Item)내용으로 entityItem 생성 후 다음 map 으로 전달
-                .map(newItem -> itemRepository.save(newItem))   // 생성돤 newItem으로 받은 객체를 repository 저장 후 다음 map 으로 전달: Update
+                .map(newItem -> baseRepository.save(newItem))   // 생성돤 newItem으로 받은 객체를 repository 저장 후 다음 map 으로 전달: Update
                 .map(item-> response(item))                     // response 행토 Header로 return
                 .orElseGet(()->Header.ERROR("데이터 없음"));     // 값이 없을때 return
     }
 
     @Override
     public Header delete(Long id) {
-        return itemRepository.findById(id)
+        return baseRepository.findById(id)
                 .map(item-> {
-                    itemRepository.delete(item);
+                    baseRepository.delete(item);
                     return Header.OK();
                 })
                 .orElseGet(()->Header.ERROR("데이터 없음"));

@@ -2,6 +2,9 @@ package com.example.study.controller;
 
 import com.example.study.ifs.CrudInterface;
 import com.example.study.model.network.Header;
+import com.example.study.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 /*
@@ -9,10 +12,12 @@ import org.springframework.web.bind.annotation.*;
 * CRUD 서비스 연동을 위한 반복적인 연결을 위함
 * 추상클래스 없이, 각각의 Controller 에서 직접 Service method 매핑 해도 됨.
 */
-public abstract class CrudController<Req,Res> implements CrudInterface <Req,Res>{
+@Component
+public abstract class CrudController<Req,Res,Entity> implements CrudInterface <Req,Res>{
 
     // Service 연결을 위한 기본서비스
-    protected CrudInterface<Req,Res> baseService;
+    @Autowired(required = false)
+    protected BaseService<Req,Res,Entity> baseService;
 
     @Override
     @PostMapping("")
