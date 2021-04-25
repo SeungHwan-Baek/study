@@ -18,5 +18,4 @@ import javax.annotation.PostConstruct;
 // CrudController 추상화 클래스 활용
 public class ItemApiController extends CrudController<ItemApiRequest, ItemApiResponse, Item> {
 
-
 }
