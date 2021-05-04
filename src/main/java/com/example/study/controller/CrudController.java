@@ -21,9 +21,7 @@ public abstract class CrudController<Req,Res,Entity> implements CrudInterface <R
 
     @Override
     @PostMapping("")
-    public Header<Res> create(@RequestBody Header<Req> request) {
-        return baseService.create(request);
-    }
+    public Header<Res> create(@RequestBody Header<Req> request) { return baseService.create(request); }
 
     @Override
     @GetMapping("{id}")
